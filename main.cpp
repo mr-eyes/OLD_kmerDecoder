@@ -1,4 +1,4 @@
-#include "skipmers.hpp"
+#include "input_module.hpp"
 #include <iostream>
 #include <queue>
 
@@ -10,14 +10,15 @@ int main()
     std::queue<std::string> skipmers;
 
     string seq = "ATGAGGGGGATGCCCCTCTTTGAGCCCAAGG";
-    Skipmers sk = Skipmers(2, 3, 14);
-
-    sk.getSkipmers(skipmers, seq);
-
-    Default df = Default(14);
-    df.get_kmers(kmers, seq);
     
+    InputModule* skp = InputModule::initialize(2, 3, 14);
+    skp->getKmers(skipmers, seq);
+
+    InputModule *df = InputModule::initialize(15);
+    df->getKmers(kmers, seq);
+
     int count = 0;
+    std::cout << "KMERS ---------------------- \n" << std::endl;
     while (!kmers.empty()){
         std::cout << ++count << ": " << kmers.front() << std::endl;
         kmers.pop();
