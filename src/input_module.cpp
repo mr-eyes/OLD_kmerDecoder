@@ -14,6 +14,11 @@ InputModule *InputModule::initialize(uint8_t m, uint8_t n, uint8_t k)
     return InputModuleSkipmers::initialize(m, n, k);
 }
 
+InputModule *InputModule::initialize(int k, int w)
+{
+    return InputModuleMinimzers::initialize(k, w);
+}
+
 // DERIVED: InputModuleDefault
 InputModule *InputModuleDefault::initialize(uint kSize)
 {

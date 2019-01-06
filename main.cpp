@@ -2,7 +2,6 @@
 #include <iostream>
 #include <queue>
 
-
 using namespace std;
 
 int main()
@@ -19,19 +18,26 @@ int main()
     df->getKmers(kmers, seq);
 
     int count = 0;
-    std::cout << "KMERS ---------------------- \n"
-              << std::endl;
+    std::cout << "KMERS --------------- \n" << std::endl;
     while (!kmers.empty())
     {
         std::cout << ++count << ": " << kmers.front() << std::endl;
         kmers.pop();
     }
     count = 0;
-    std::cout << "\nSKIPMERS ---------------------- \n"
-              << std::endl;
+    std::cout << "\nSKIPMERS --------------- \n" << std::endl;
     while (!skipmers.empty())
     {
         std::cout << ++count << ": " << skipmers.front() << std::endl;
         skipmers.pop();
+    }
+
+    std::cout << "\nMINIMZERS k-mer triples--------------- \n"
+              << std::endl;
+    InputModuleMinimzers *mini = new InputModuleMinimzers(5, 10);
+    vector<mkmh_minimizer> mh = mini->getMinimizers(seq);
+    for (auto z : mh)
+    {
+        cout << "pos: " << z.pos << "  len: " << z.length << "  seq: " << z.seq << endl;
     }
 }
