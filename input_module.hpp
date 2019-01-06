@@ -8,12 +8,6 @@ class InputModule
     static InputModule *initialize(uint8_t m, uint8_t n, uint8_t k);
     static InputModule *initialize(uint kSize);
     virtual void getKmers(std::queue<std::string> &kmers, std::string &x) = 0;
-   
-
-    ~InputModule()
-    {
-        std::cerr << "Destructing InputModule" << std::endl;
-    }
 };
 
 class InputModuleSkipmers : InputModule
@@ -40,7 +34,6 @@ class InputModuleSkipmers : InputModule
     }
     void getKmers(std::queue<std::string> &kmers, std::string &x);
     static InputModule* initialize(uint8_t m, uint8_t n, uint8_t k);
-    InputModule* load();
 };
 
 class InputModuleDefault : InputModule
@@ -55,10 +48,3 @@ class InputModuleDefault : InputModule
     void getKmers(std::queue<std::string> &kmers, std::string &x);
     static InputModule *initialize(uint kSize);
 };
-
-/*
-
-kmers = InputModule(21)
-skipmers = InputModule(2,3,14)
-
-*/
