@@ -1,27 +1,13 @@
 language: cpp
-sudo: required
 
-matrix:
-  include:
-    - os: linux
-      compiler: gcc-7
-      addons:
-        apt:
-          packages: ['g++-7', 'cmake', 'cmake-data', 'zlib1g-dev', 'libbz2-dev']
-      install: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 70 --slave /usr/bin/g++ g++ /usr/bin/g++-7 
+compiler:
+  - gcc
+  - g++
+  - clang
 
-
-
-
-script:
-  - g++ --version
-  - mkdir build && cd build
+before_script:
+  - mkdir build
+  - cd build
   - cmake ..
-  - make
 
-branches:
-  only:
-  - master
-
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+script: make && ./inputModule
