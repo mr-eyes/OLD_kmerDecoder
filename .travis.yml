@@ -3,11 +3,12 @@ language: cpp
 compiler:
   - gcc
   - g++
-  - clang
 
 before_script:
   - mkdir build
   - cd build
   - cmake ..
 
-script: make && ./inputModule
+script: 
+  - make 
+  - ./inputModule
