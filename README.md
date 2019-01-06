@@ -3,7 +3,7 @@
 ## Build
 
 ```sh
-mkdir build && build
+mkdir build && cd build/
 cmake ..
 make
 ./inputModule
