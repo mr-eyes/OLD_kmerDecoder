@@ -12,7 +12,7 @@ public:
   {
     if (n < 1 or n < m or k < m or k > 31 or k % m != 0)
     {
-      std::cout << "Error: invalid skip-mer shape! m=" << m << " n=" << n << " k=" << k << std::endl
+      std::cout << "Error: invalid skip-mer shape! m= " << m << " n=" << n << " k= " << k << std::endl
                 << "Conditions: 0 < m <= n, k <= 31 , k must multiple of m." << std::endl;
 
       exit(1);
@@ -22,6 +22,7 @@ public:
     this->n = n;
     this->k = k;
     this->S = k + ((k - 1) / m) * (n - m);
+    std::cout << "S:: " << S << std::endl;
   }
   void getSkipmers(std::string &x);
 };

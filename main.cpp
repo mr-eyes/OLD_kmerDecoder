@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-    string seq = "ATGAGGGGGATGCCCCTCTTTGAGCCCAAGG";
-    Skipmers sk = Skipmers(2, 3, 14);
+    string seq = "CCCAGATCTCTTCAGTTTTTATGCCTCATTCTGTGAAAATTGCTGTAGTCTCTTCCAGTT";
+    Skipmers sk = Skipmers(1, 3, 31);
     sk.getSkipmers(seq);
 }
