@@ -1,14 +1,29 @@
 language: cpp
+sudo: required
 
-compiler:
-  - gcc
-  - g++
+matrix:
+  include:
+    - os: linux
+      compiler: gcc-7
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'george-edison55-precise-backports']
+          packages: ['g++-7', 'cmake', 'cmake-data', 'zlib1g-dev', 'libbz2-dev', 'libboost-dev', 'python', 'python-nose', 'python-jinja2', 'python-pip']
+      install: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 70 --slave /usr/bin/g++ g++ /usr/bin/g++-7 
 
-before_script:
-  - mkdir build
-  - cd build
+
+
+
+script:
+  - g++ --version
+  - mkdir build && cd build
   - cmake ..
-
-script: 
-  - make 
+  - make
   - ./inputModule
+
+branches:
+  only:
+  - master
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
