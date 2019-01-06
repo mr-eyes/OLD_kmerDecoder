@@ -1,5 +1,20 @@
 #include <string>
 #include <iostream>
+#include <queue>
+
+class Default
+{
+private:
+  int kSize;
+
+public:
+  Default(int kSize)
+  {
+    this->kSize = kSize;
+  }
+
+  void get_kmers(std::queue<std::string> &kmers, std::string &seq);
+};
 
 class Skipmers
 {
@@ -24,5 +39,5 @@ public:
     this->S = k + ((k - 1) / m) * (n - m);
     std::cout << "S:: " << S << std::endl;
   }
-  void getSkipmers(std::string &x);
+  void getSkipmers(std::queue<std::string> &kmers, std::string &x);
 };
