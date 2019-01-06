@@ -1,2 +1,2 @@
-g++ skip.cpp skip.hpp main.cpp
+g++ skipmers.cpp skipmers.hpp main.cpp
 ./a.out
