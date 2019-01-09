@@ -1,5 +1,5 @@
 # skipmers
-[![Build Status](https://travis-ci.org/mr-eyes/kmers_input.svg?branch=master)](https://travis-ci.org/mr-eyes/kmers_input)
+[![Build Status](https://travis-ci.org/mr-eyes/kmerDecoder.svg?branch=master)](https://travis-ci.org/mr-eyes/kmerDecoder)
 
 ## Build
 
