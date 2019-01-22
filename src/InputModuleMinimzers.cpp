@@ -17,10 +17,11 @@
 
 using namespace std;
 
-InputModule *InputModuleMinimzers::initialize(int k, int w)
-{
-    return new InputModuleMinimzers(k, w);
-}
+/* 
+  --------------------------------------------------------
+              Derived Class : Minimizers
+  --------------------------------------------------------
+*/
 
 void InputModuleMinimzers::kmerize(char *seq, const int &seq_len, const int &k, char **kmers, int &kmer_num)
 {
@@ -106,6 +107,13 @@ vector<mkmh_minimizer> InputModuleMinimzers::getMinimizers(string &seq)
         ret.push_back(*(window_kmers.begin()));
     }
     return v_set(ret);
+}
+
+void InputModuleMinimzers::setParms(const std::vector<int> &params)
+{
+    int k, w;
+    this->k = params.at(0);
+    this->w = params.at(1);
 }
 
 void InputModuleMinimzers::getKmers(std::queue<std::string> &kmers, std::string &seq)

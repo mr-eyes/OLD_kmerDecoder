@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <queue>
+#include <vector>
 #include <set>
 
 typedef struct mkmh_minimizer
@@ -11,49 +12,28 @@ typedef struct mkmh_minimizer
   bool operator<(const mkmh_minimizer &rhs) const { return seq < rhs.seq; };
 } mkmh_minimizer;
 
-typedef struct mkmh_kmer_list_t
-{
-  char **kmers;
-  int length;
-  int k;
-
-  mkmh_kmer_list_t(){
-
-  };
-
-  mkmh_kmer_list_t(int length, int k)
-  {
-    length = length;
-    k = k;
-    kmers = new char *[length];
-  };
-
-  ~mkmh_kmer_list_t()
-  {
-    for (int i = 0; i < length; ++i)
-    {
-      delete[] kmers[i];
-    }
-    delete[] kmers;
-  };
-} mkmh_kmer_list_t;
+/* 
+  --------------------------------------------------------
+              Derived Class : SkipMers
+  --------------------------------------------------------
+*/
 
 class InputModule
 {
 public:
-  static InputModule *initialize(uint8_t m, uint8_t n, uint8_t k); // Skipmers
-  static InputModule *initialize(int k, int w);                    // Minimizers
-  static InputModule *initialize(uint kSize);                      // Default
+  virtual void setParms(const std::vector<int> &parms) = 0;
   virtual void getKmers(std::queue<std::string> &kmers, std::string &seq) = 0;
+  virtual ~InputModule(){};
 };
 
-class InputModuleSkipmers : InputModule
+class InputModuleSkipmers : public InputModule
 {
 private:
-  uint8_t m, n, k;
-  uint S;
+  int m, n, k;
+  int S;
 
 public:
+  InputModuleSkipmers() {}
   InputModuleSkipmers(uint8_t m, uint8_t n, uint8_t k)
   {
     if (n < 1 or n < m or k < m or k > 31 or k % m != 0)
@@ -70,24 +50,39 @@ public:
     this->S = k + ((k - 1) / m) * (n - m);
   }
   void getKmers(std::queue<std::string> &kmers, std::string &x);
-  static InputModule *initialize(uint8_t m, uint8_t n, uint8_t k);
+  void setParms(const std::vector<int> &parms);
+  virtual ~InputModuleSkipmers() {}
 };
 
-class InputModuleDefault : InputModule
+/* 
+  --------------------------------------------------------
+              Derived Class : Default
+  --------------------------------------------------------
+*/
+
+class InputModuleDefault : public InputModule
 {
-private:
+protected:
   int kSize;
 
 public:
+  InputModuleDefault() {}
   InputModuleDefault(int kSize)
   {
     this->kSize = kSize;
   }
   void getKmers(std::queue<std::string> &kmers, std::string &x);
-  static InputModule *initialize(uint kSize);
+  void setParms(const std::vector<int> &parms);
+  virtual ~InputModuleDefault() {}
 };
 
-class InputModuleMinimzers : InputModule
+/* 
+  --------------------------------------------------------
+              Derived Class : Minimzers
+  --------------------------------------------------------
+*/
+
+class InputModuleMinimzers : public InputModule
 {
 private:
   int k, w;
@@ -118,7 +113,6 @@ private:
     };
   };
 
-
 protected:
   std::vector<mkmh_minimizer> kmer_tuples(std::string seq, int k);
   mkmh_kmer_list_t kmerize(char *seq, int seq_len, int k);
@@ -128,6 +122,7 @@ protected:
   std::vector<T> v_set(std::vector<T> kmers);
 
 public:
+  InputModuleMinimzers() {}
   InputModuleMinimzers(int k, int w)
   {
     this->k = k;
@@ -135,5 +130,37 @@ public:
   }
   std::vector<mkmh_minimizer> getMinimizers(std::string &seq);
   void getKmers(std::queue<std::string> &kmers, std::string &x);
-  static InputModule *initialize(int k, int w);
+  void setParms(const std::vector<int> &parms);
+  virtual ~InputModuleMinimzers(){};
+};
+
+/* 
+  --------------------------------------------------------
+              Factory Class : InputModuleFactory
+  --------------------------------------------------------
+*/
+
+class InputModuleFactory
+{
+public:
+  static InputModule *newInputModule(const std::string description)
+  {
+    if (description == "default")
+    {
+      return new InputModuleDefault;
+    }
+    else if (description == "skipmers")
+    {
+      return new InputModuleSkipmers;
+    }
+    else if (description == "minimzers")
+    {
+      return new InputModuleMinimzers;
+    }
+    else
+    {
+      std::cerr << "choose only {mode} ⊂ {default, skipemers, minimzers}" << std::endl;
+      exit(0);
+    }
+  }
 };
