@@ -3,26 +3,16 @@
 #include <queue>
 #include "input_module.hpp"
 
-// BASE
-InputModule *InputModule::initialize(uint kSize)
-{
-    return InputModuleDefault::initialize(kSize);
-}
+/* 
+  --------------------------------------------------------
+              Derived Class : Default
+  --------------------------------------------------------
+*/
 
-InputModule *InputModule::initialize(uint8_t m, uint8_t n, uint8_t k)
+void InputModuleDefault::setParms(const std::vector<int> &params)
 {
-    return InputModuleSkipmers::initialize(m, n, k);
-}
-
-InputModule *InputModule::initialize(int k, int w)
-{
-    return InputModuleMinimzers::initialize(k, w);
-}
-
-// DERIVED: InputModuleDefault
-InputModule *InputModuleDefault::initialize(uint kSize)
-{
-    return new InputModuleDefault(kSize);
+    int kSize = params.at(0);
+    this->kSize = kSize;
 }
 
 void InputModuleDefault::getKmers(std::queue<std::string> &kmers, std::string &seq)
@@ -33,11 +23,31 @@ void InputModuleDefault::getKmers(std::queue<std::string> &kmers, std::string &s
     }
 }
 
-// DERIVED: InputModuleSkipmers
+/* 
+  --------------------------------------------------------
+              Derived Class : SkipMers
+  --------------------------------------------------------
+*/
 
-InputModule *InputModuleSkipmers::initialize(uint8_t m, uint8_t n, uint8_t k)
+void InputModuleSkipmers::setParms(const std::vector<int> &params)
 {
-    return new InputModuleSkipmers(m, n, k);
+    int m, n, k;
+
+    m = params.at(0);
+    n = params.at(1);
+    k = params.at(2);
+
+    if (n < 1 or n < m or k < m or k > 31 or k % m != 0)
+    {
+        std::cerr << "Error: invalid skip-mer shape! m= " << m << " n=" << n << " k= " << k << std::endl
+                  << "Conditions: 0 < m <= n, k <= 31 , k must multiple of m." << std::endl;
+
+        exit(1);
+    }
+    this->m = m;
+    this->n = n;
+    this->k = k;
+    this->S = k + ((k - 1) / m) * (n - m);
 }
 
 void InputModuleSkipmers::getKmers(std::queue<std::string> &kmers, std::string &seq)
