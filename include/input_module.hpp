@@ -14,7 +14,7 @@ typedef struct mkmh_minimizer
 
 /* 
   --------------------------------------------------------
-              Derived Class : SkipMers
+              Base Class : InputModule
   --------------------------------------------------------
 */
 
@@ -26,6 +26,12 @@ public:
   virtual ~InputModule(){};
 };
 
+/* 
+  --------------------------------------------------------
+              Derived Class : SkipMers
+  --------------------------------------------------------
+*/
+
 class InputModuleSkipmers : public InputModule
 {
 private:
@@ -34,22 +40,7 @@ private:
 
 public:
   InputModuleSkipmers() {}
-  InputModuleSkipmers(uint8_t m, uint8_t n, uint8_t k)
-  {
-    if (n < 1 or n < m or k < m or k > 31 or k % m != 0)
-    {
-      std::cout << "Error: invalid skip-mer shape! m= " << m << " n=" << n << " k= " << k << std::endl
-                << "Conditions: 0 < m <= n, k <= 31 , k must multiple of m." << std::endl;
-
-      exit(1);
-    }
-
-    this->m = m;
-    this->n = n;
-    this->k = k;
-    this->S = k + ((k - 1) / m) * (n - m);
-  }
-  void getKmers(std::queue<std::string> &kmers, std::string &x);
+  void getKmers(std::queue<std::string> &kmers, std::string &seq);
   void setParms(const std::vector<int> &parms);
   virtual ~InputModuleSkipmers() {}
 };
@@ -67,11 +58,7 @@ protected:
 
 public:
   InputModuleDefault() {}
-  InputModuleDefault(int kSize)
-  {
-    this->kSize = kSize;
-  }
-  void getKmers(std::queue<std::string> &kmers, std::string &x);
+  void getKmers(std::queue<std::string> &kmers, std::string &seq);
   void setParms(const std::vector<int> &parms);
   virtual ~InputModuleDefault() {}
 };
@@ -123,13 +110,8 @@ protected:
 
 public:
   InputModuleMinimzers() {}
-  InputModuleMinimzers(int k, int w)
-  {
-    this->k = k;
-    this->w = w;
-  }
   std::vector<mkmh_minimizer> getMinimizers(std::string &seq);
-  void getKmers(std::queue<std::string> &kmers, std::string &x);
+  void getKmers(std::queue<std::string> &kmers, std::string &seq);
   void setParms(const std::vector<int> &parms);
   virtual ~InputModuleMinimzers(){};
 };

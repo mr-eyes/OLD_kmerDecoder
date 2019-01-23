@@ -2,8 +2,6 @@
 #include <iostream>
 #include <queue>
 
-using namespace std;
-
 int main()
 {
 
@@ -13,7 +11,7 @@ int main()
     std::queue<std::string> skipmers;
     std::queue<std::string> minimzers;
 
-    string seq = "ATGAGGGGGATGCCCCTCTTTGAGCCCAAGGACGTAGCCTATATTTTGCAACGCGTGAC";
+    std::string seq = "ATGAGGGGGATGCCCCTCTTTGAGCCCAAGGACGTAGCCTATATTTTGCAACGCGTGAC";
 
     /* 
     --------------------------------------------------------
@@ -21,7 +19,7 @@ int main()
     --------------------------------------------------------
     */
 
-    const vector<int> skipmers_params = {2, 3, 14}; // params = {m, n, k}
+    const std::vector<int> skipmers_params = {3, 3, 27}; // params = {m, n, k}
     InputModule *skp = InputModuleFactory::newInputModule("skipmers");
     skp->setParms(skipmers_params);
     skp->getKmers(skipmers, seq);
@@ -39,7 +37,7 @@ int main()
     --------------------------------------------------------
     */
 
-    const vector<int> kmers_params = {15}; // params = {k}
+    const std::vector<int> kmers_params = {15}; // params = {k}
     InputModule *df = InputModuleFactory::newInputModule("default");
     df->setParms(kmers_params);
     df->getKmers(kmers, seq);
@@ -58,7 +56,7 @@ int main()
     --------------------------------------------------------
     */
 
-    const vector<int> minimzers_params = {5, 10}; // params = {k, w}
+    const std::vector<int> minimzers_params = {5, 10}; // params = {k, w}
     InputModule *mini = InputModuleFactory::newInputModule("minimzers");
     mini->setParms(minimzers_params);
     mini->getKmers(minimzers, seq);
