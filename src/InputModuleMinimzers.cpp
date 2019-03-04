@@ -116,10 +116,11 @@ void InputModuleMinimzers::setParms(const std::vector<int> &params)
     this->w = params.at(1);
 }
 
-void InputModuleMinimzers::getKmers(std::queue<std::string> &kmers, std::string &seq)
+void InputModuleMinimzers::getKmers(std::string &seq)
 {
     vector<mkmh_minimizer> ret;
     vector<mkmh_minimizer> kmert = kmer_tuples(seq, this->k);
+    std::string minimzers = "";
     int i = 0;
     for (i = 0; i + this->w < kmert.size(); ++i)
     {
@@ -130,6 +131,6 @@ void InputModuleMinimzers::getKmers(std::queue<std::string> &kmers, std::string 
     }
     for (auto z : v_set(ret))
     {
-        kmers.push(z.seq);
+        minimzers.append(z.seq);
     }
 }

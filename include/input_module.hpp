@@ -22,7 +22,7 @@ class InputModule
 {
 public:
   virtual void setParms(const std::vector<int> &parms) = 0;
-  virtual void getKmers(std::queue<std::string> &kmers, std::string &seq) = 0;
+  virtual void getKmers(std::string &seq) = 0;
   virtual ~InputModule(){};
 };
 
@@ -36,7 +36,7 @@ public:
   InputModuleSkipmers() {}
   InputModuleSkipmers(uint8_t m, uint8_t n, uint8_t k)
   {
-    if (n < 1 or n < m or k < m or k > 31 or k % m != 0)
+    if (n < 1 or n < m or k < m)
     {
       std::cout << "Error: invalid skip-mer shape! m= " << m << " n=" << n << " k= " << k << std::endl
                 << "Conditions: 0 < m <= n, k <= 31 , k must multiple of m." << std::endl;
@@ -49,7 +49,8 @@ public:
     this->k = k;
     this->S = k + ((k - 1) / m) * (n - m);
   }
-  void getKmers(std::queue<std::string> &kmers, std::string &x);
+  
+  void getKmers(std::string &x);
   void setParms(const std::vector<int> &parms);
   virtual ~InputModuleSkipmers() {}
 };
@@ -71,7 +72,7 @@ public:
   {
     this->kSize = kSize;
   }
-  void getKmers(std::queue<std::string> &kmers, std::string &x);
+  void getKmers(std::string &x);
   void setParms(const std::vector<int> &parms);
   virtual ~InputModuleDefault() {}
 };
@@ -129,7 +130,7 @@ public:
     this->w = w;
   }
   std::vector<mkmh_minimizer> getMinimizers(std::string &seq);
-  void getKmers(std::queue<std::string> &kmers, std::string &x);
+  void getKmers(std::string &x);
   void setParms(const std::vector<int> &parms);
   virtual ~InputModuleMinimzers(){};
 };
