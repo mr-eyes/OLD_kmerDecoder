@@ -1,3 +1,3 @@
-rm -rf *cxx *so *gch *pyc 
-swig -c++ -python kmerDecoder.i
-python setup.py build_ext --inplace
+rm -rf build/ *cxx *so *gch *pyc 
+swig -c++ -python -py3 kmerDecoder.i
+python3 setup.py build_ext --inplace

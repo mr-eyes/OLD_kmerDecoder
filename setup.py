@@ -1,5 +1,7 @@
 from distutils.core import setup, Extension
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
 kmerDecoder_module = Extension('_kmerDecoder',
                                sources=[

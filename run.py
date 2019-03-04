@@ -18,7 +18,7 @@ kmers.setParms(kmers_params)
 kmers.getKmers(kmers_q, seq)
 
 for i in range(kmers_q.size()):
-    print ("%d: %s") % (i+1, kmers_q.front())
+    print ("{}: {}".format(i+1, kmers_q.front()))
     kmers_q.pop()
 
 
@@ -37,7 +37,7 @@ skipmers.setParms(skipmers_params)
 skipmers.getKmers(skipmers_q, seq)
 
 for i in range(skipmers_q.size()):
-    print ("%d: %s") % (i+1, skipmers_q.front())
+    print ("{}: {}".format(i+1, skipmers_q.front()))
     skipmers_q.pop()
 
 """
@@ -55,5 +55,5 @@ minimizers.setParms(minimizers_params)
 minimizers.getKmers(minimizers_q, seq)
 
 for i in range(minimizers_q.size()):
-    print ("%d: %s") % (i+1, minimizers_q.front())
+    print ("{}: {}".format(i+1, minimizers_q.front()))
     minimizers_q.pop()
